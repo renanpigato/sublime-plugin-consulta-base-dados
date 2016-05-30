@@ -1,1 +1,1 @@
-# sublime-plugin-consulta-base-dados
+Plugin para consultar base de dados diretamente pelo sublime

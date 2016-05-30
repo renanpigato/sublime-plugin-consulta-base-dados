@@ -29,7 +29,7 @@ class ConsultaBaseDadosCommand(sublime_plugin.TextCommand):
 		host = sublime.load_settings('ConsultaBaseDados.sublime-settings').get('host')     #"localhost";
 		port = sublime.load_settings('ConsultaBaseDados.sublime-settings').get('porta')    #"5432";
 		user = sublime.load_settings('ConsultaBaseDados.sublime-settings').get('usuario')  #"postgres";
-		base = sublime.load_settings('ConsultaBaseDados.sublime-settings').get('base')     #"agrofiusa";
+		base = sublime.load_settings('ConsultaBaseDados.sublime-settings').get('base')     #"postgres";
 		
 		return "psql -h " + host + " -p " + port + " -U " + user + " " + base + " -f " + fileName;
 

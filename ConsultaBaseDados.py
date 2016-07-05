@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, subprocess, re, json, pprint
+import sublime, sublime_plugin, subprocess, re, json, pprint, sys
 
 class ConsultaBaseDadosCommand(sublime_plugin.TextCommand):
 
@@ -10,7 +10,7 @@ class ConsultaBaseDadosCommand(sublime_plugin.TextCommand):
 		if(fileExtension == None):
 			sublime.message_dialog("Este NÃO é um arquivo de SQL cara!!");
 			return;
-		
+
 		self.execute(fileName);
 
 	def execute(self, fileName):
@@ -18,9 +18,16 @@ class ConsultaBaseDadosCommand(sublime_plugin.TextCommand):
 		sqlCommand = self.constructCommand(fileName);
 
 		try:
-			response = subprocess.check_output(sqlCommand, stderr=subprocess.STDOUT, shell=True).decode('utf8');
-		except e:
-			response = e;
+
+			response = subprocess.check_output(sqlCommand, stderr=subprocess.STDOUT, shell=True);
+
+			if(sublime.load_settings('ConsultaBaseDados.sublime-settings').get('encode') == None):
+				response = response.decode('utf8');
+			else:
+				response = response.decode(sublime.load_settings('ConsultaBaseDados.sublime-settings').get('encode'));
+
+		except Exception as e:
+			response = pprint.pprint(e);
 
 		self.openTerminal(response);
 

@@ -20,11 +20,12 @@ class ConsultaBaseDadosCommand(sublime_plugin.TextCommand):
 		try:
 
 			response = subprocess.check_output(sqlCommand, stderr=subprocess.STDOUT, shell=True);
+			encode   = sublime.load_settings('ConsultaBaseDados.sublime-settings').get('encode');
 
-			if(sublime.load_settings('ConsultaBaseDados.sublime-settings').get('encode') == None):
+			if(encode == None):
 				response = response.decode('utf8');
 			else:
-				response = response.decode(sublime.load_settings('ConsultaBaseDados.sublime-settings').get('encode'));
+				response = response.decode(encode);
 
 		except Exception as e:
 			response = pprint.pprint(e);
@@ -43,7 +44,6 @@ class ConsultaBaseDadosCommand(sublime_plugin.TextCommand):
 	def openTerminal(self, txt):
 
 		self.output_view = self.view.window().create_output_panel("textarea");
-		window = sublime.active_window();
-		window.run_command("show_panel", {"panel": "output.textarea"});
-		self.output_view.set_read_only(False);
 		self.output_view.run_command("append", {"characters": txt});
+		self.output_view.set_read_only(False);
+		self.view.window().run_command("show_panel", {"panel": "output.textarea"});

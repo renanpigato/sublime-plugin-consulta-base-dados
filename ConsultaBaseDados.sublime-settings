@@ -1,4 +1,5 @@
 {
+  "encode"   : "latin1", 
   "host"     : "host", 
   "porta"    : "5432", 
   "usuario"  : "postgres", 
